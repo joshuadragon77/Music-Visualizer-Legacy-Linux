@@ -1,4 +1,7 @@
 # Music Visualizer Legacy ported for Linux
+![image](https://github.com/user-attachments/assets/29532d86-100e-41f2-9608-6c3d0b26f929)
+
+![image](https://github.com/user-attachments/assets/4f240d84-32ee-416f-a524-d9663cd417fd)
 
 These Java Programs represent my early days of programming and early days of my Music Visualizing series. lol
 

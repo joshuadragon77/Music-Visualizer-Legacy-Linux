@@ -190,11 +190,13 @@ class JadeLyricsManager {
 
         for (int i = 0;i<lyricalFiles.length;i++){
             File lyricalFile = lyricalFiles[i];
-            JadeLyrics jl = parseLyricsFile(lyricalFile);
-            if (jl != null){
-                successful ++;
-                parsedJadeLyrics.add(jl);
-                hashedJadeLyrics.put(jl.songName.toLowerCase(), jl);
+            if (lyricalFile.isFile()){
+                JadeLyrics jl = parseLyricsFile(lyricalFile);
+                if (jl != null){
+                    successful ++;
+                    parsedJadeLyrics.add(jl);
+                    hashedJadeLyrics.put(jl.songName.toLowerCase(), jl);
+                }
             }
         }
         System.out.println("Successfully parsed " + successful + " lyrical files out of " + lyricalFiles.length);

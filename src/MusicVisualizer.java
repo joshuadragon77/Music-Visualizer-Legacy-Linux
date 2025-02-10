@@ -8,7 +8,7 @@ import java.awt.Image;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-
+import java.util.BitSet;
 import java.util.LinkedList;
 import java.awt.Taskbar;
 
@@ -596,7 +596,8 @@ public class MusicVisualizer {
 
         class Input1 implements TextInputEvent, UIElementInputEvent{
             static int sampleSizeInt = 1024;
-            static boolean fixSpotifyPlayback = true;
+            static boolean fixSpotifyPlayback = false;
+            static boolean trackingSpotify = true;
 
 			@Override
 			public void onFocus() {
@@ -940,12 +941,41 @@ public class MusicVisualizer {
 				if (event.isButtonDown() == false)
                     return;
 
-                fixSpotifyPlayback = fixSpotifyPlayback != true;
+
+                int currentState = 0;
 
                 if (fixSpotifyPlayback){
-                    spotifyPlaybackFix.setText("Refresh Playback");
-                }else{
-                    spotifyPlaybackFix.setText("Guess Playback");
+                    currentState = 0b01;
+                }
+
+                if (trackingSpotify){
+                    currentState |= 0b10;
+                }
+
+                switch(currentState){
+                    case 0:{
+                        fixSpotifyPlayback = true;
+                        trackingSpotify = false;
+                        spotifyPlaybackFix.setText("Refresh Playback");
+                        break;
+                    }
+                    case 1:{
+                        fixSpotifyPlayback = false;
+                        trackingSpotify = true;
+                        spotifyPlaybackFix.setText("Raw Playback");
+                        break;
+                    }
+                    case 2:{
+                        fixSpotifyPlayback = false;
+                        trackingSpotify = false;
+                        spotifyPlaybackFix.setText("Guess Playback");
+                        break;
+                    }
+                    default:{
+                        fixSpotifyPlayback = false;
+                        trackingSpotify = false;
+                        break;
+                    }
                 }
 			}
         });
@@ -1598,7 +1628,9 @@ public class MusicVisualizer {
 
                     currentTimePosition += 0.0;//0.15;
                     if (spotifyExperiencingBugs && Input1.fixSpotifyPlayback == false){
-                        currentTimePosition -= 0.95;
+                        if (Input1.trackingSpotify == false){
+                            currentTimePosition -= 0.95;
+                        }
                     }
                     artwork.setImage(spotifyArtwork);
                     backgroundImage.setImage(spotifyArtwork);
@@ -2023,22 +2055,24 @@ public class MusicVisualizer {
                                 if (adjustForSpotifyBug && spotifyTimePosition < 2){
                                     adjustForSpotifyBug = false;
                                     //Spotify is gey and is broken
-                                    Thread.sleep(1000);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(5);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(300);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(5);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(300);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(5);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(300);
-                                    SpotifyState.pausePlaySpotify();
-                                    Thread.sleep(5);
-                                    SpotifyState.pausePlaySpotify();
+                                    if (Input1.trackingSpotify == false){
+                                        Thread.sleep(1000);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(5);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(300);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(5);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(300);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(5);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(300);
+                                        SpotifyState.pausePlaySpotify();
+                                        Thread.sleep(5);
+                                        SpotifyState.pausePlaySpotify();
+                                    }
                                 }
                             }else{
                                 if (currentSpotifyState.playing == false)

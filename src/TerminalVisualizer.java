@@ -178,13 +178,13 @@ public class TerminalVisualizer extends Thread{
         if (currentSpotifyState.playing == false){
             return (long)(currentSpotifyState.timePosition*1000);
         }else
-            if (currentSpotifyState != null){
-                if (spotifyExperiencingBugs){
-                    return (System.currentTimeMillis() - currentSpotifyState.updatedTime + (int)(currentSpotifyState.timePosition * 1000)) + 150 - 1000;
-                }else
-                    return (System.currentTimeMillis() - currentSpotifyState.updatedTime + (int)(currentSpotifyState.timePosition * 1000)) + 150;
-            }
-        return 0l;
+            // if (currentSpotifyState != null){
+            //     if (spotifyExperiencingBugs){
+            //         return (System.currentTimeMillis() - currentSpotifyState.updatedTime + (int)(currentSpotifyState.timePosition * 1000)) + 150 - 1000;
+            //     }else
+                return (System.currentTimeMillis() - currentSpotifyState.updatedTime + (int)(currentSpotifyState.timePosition * 1000)) + 150;
+            // }
+        // return 0l;
     }
 
     public void run(){

@@ -63,6 +63,7 @@ class JadeLyricsManager {
             return null;
         }
 
+
         while (true){
             newReadStream = new char[1024];
             readCharacter = fr.read(newReadStream);
